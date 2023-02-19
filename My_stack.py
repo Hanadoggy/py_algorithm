@@ -5,13 +5,11 @@ import sys
 
 def question_4949():
     stack = list()
-    run = True
-    while run:
+    while True:
         valid = 1
         stack.clear()
         given = input()
         if given == ".":
-            run = False
             break
 
         for i in range(0, len(given)):
@@ -51,6 +49,7 @@ def question_10799():
 def question_10828():
     total = input()
     stack = list()
+    y = ''
     for i in range(int(total)):
         word = sys.stdin.readline().rstrip()
         if word[1] == 'u':

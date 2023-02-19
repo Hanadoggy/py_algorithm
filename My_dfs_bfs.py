@@ -5,13 +5,13 @@ from collections import deque
 
 
 def question_1697():
-    subin, sister = input().split()
-    subin = int(subin)
+    brother, sister = input().split()
+    brother = int(brother)
     sister = int(sister)
-    ruler = [100000 for i in range(100101)]
+    ruler = [100000 for _ in range(100101)]
     xq = deque()
-    xq.append(subin)
-    ruler[subin] = 0
+    xq.append(brother)
+    ruler[brother] = 0
     while len(xq) > 0:
         tx = xq.popleft()
         if tx > 0 and ruler[tx - 1] > ruler[tx] + 1:
@@ -37,8 +37,8 @@ def question_1926():
     yq = deque()
     maxsize = 0
     number = 0
-    canvas = [[0 for col in range(y)] for row in range(x)]
-    check = [[0 for col in range(y)] for row in range(x)]
+    canvas = [[0 for _ in range(y)] for _ in range(x)]
+    check = [[0 for _ in range(y)] for _ in range(x)]
     for i in range(x):
         canvas[i] = list(map(int, input().split()))
 
@@ -89,8 +89,8 @@ def question_2178():
     y = int(y)
     xq = deque()
     yq = deque()
-    canvas = [[0 for col in range(y)] for row in range(x)]
-    check = [[(x * y) for col in range(y)] for row in range(x)]
+    canvas = [[0 for _ in range(y)] for _ in range(x)]
+    check = [[(x * y) for _ in range(y)] for _ in range(x)]
     for i in range(x):
         canvas[i] = list(input())
 
@@ -135,9 +135,9 @@ def question_4179():
     xq = deque()
     yq = deque()
     valid = False
-    canvas = [[0 for col in range(y)] for row in range(x)]
-    check = [[(x * y) for col in range(y)] for row in range(x)]
-    fast = [[(x * y) for col in range(y)] for row in range(x)]
+    canvas = [[0 for _ in range(y)] for _ in range(x)]
+    check = [[(x * y) for _ in range(y)] for _ in range(x)]
+    fast = [[(x * y) for _ in range(y)] for _ in range(x)]
     for i in range(x):
         canvas[i] = list(input())
         for j in range(y):
@@ -186,22 +186,26 @@ def question_4179():
                 valid = True
                 escape = fast[tx][ty] + 1
 
-        if ty < y - 1 and canvas[tx][ty + 1] != '#' and check[tx][ty + 1] > fast[tx][ty] and fast[tx][ty + 1] > fast[tx][ty] + 1:
+        if ty < y - 1 and canvas[tx][ty + 1] != '#' and check[tx][ty + 1] > fast[tx][ty]\
+                and fast[tx][ty + 1] > fast[tx][ty] + 1:
             xq.append(tx)
             yq.append(ty + 1)
             fast[tx][ty + 1] = fast[tx][ty] + 1
 
-        if tx < x - 1 and canvas[tx + 1][ty] != '#' and check[tx + 1][ty] > fast[tx][ty] and fast[tx + 1][ty] > fast[tx][ty] + 1:
+        if tx < x - 1 and canvas[tx + 1][ty] != '#' and check[tx + 1][ty] > fast[tx][ty]\
+                and fast[tx + 1][ty] > fast[tx][ty] + 1:
             xq.append(tx + 1)
             yq.append(ty)
             fast[tx + 1][ty] = fast[tx][ty] + 1
 
-        if ty > 0 and canvas[tx][ty - 1] != '#' and check[tx][ty - 1] > fast[tx][ty] and fast[tx][ty - 1] > fast[tx][ty] + 1:
+        if ty > 0 and canvas[tx][ty - 1] != '#' and check[tx][ty - 1] > fast[tx][ty]\
+                and fast[tx][ty - 1] > fast[tx][ty] + 1:
             xq.append(tx)
             yq.append(ty - 1)
             fast[tx][ty - 1] = fast[tx][ty] + 1
 
-        if tx > 0 and canvas[tx - 1][ty] != '#' and check[tx - 1][ty] > fast[tx][ty] and fast[tx - 1][ty] > fast[tx][ty] + 1:
+        if tx > 0 and canvas[tx - 1][ty] != '#' and check[tx - 1][ty] > fast[tx][ty]\
+                and fast[tx - 1][ty] > fast[tx][ty] + 1:
             xq.append(tx - 1)
             yq.append(ty)
             fast[tx - 1][ty] = fast[tx][ty] + 1
@@ -221,7 +225,7 @@ def question_7576():
     txq = deque()
     tyq = deque()
     day = 0
-    container = [[0 for col in range(y)] for row in range(x)]
+    container = [[0 for _ in range(y)] for _ in range(x)]
     for i in range(x):
         container[i] = list(map(int, input().split()))
         for j in range(y):

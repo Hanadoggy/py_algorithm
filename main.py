@@ -11,4 +11,4 @@ from My_dynamic_programming import *
 
 
 if __name__ == '__main__':
-    question_1932()
+    question_11053()

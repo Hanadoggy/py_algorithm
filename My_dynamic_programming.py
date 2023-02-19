@@ -1,5 +1,7 @@
 # algorithm - Dynamic Programming
 
+from bisect import bisect_left
+
 
 def question_1003():
     result = [0, 1, 1]
@@ -27,6 +29,20 @@ def question_1149():
         count[i][2] = min(count[i - 1][0], count[i - 1][1]) + arr[i - 1][2]
 
     print(min(count[total][0], count[total][1], count[total][2]))
+
+
+def question_1463():
+    n = int(input())
+    count = [0] * (n + 1)
+    for i in range(2, n + 1):
+        count[i] = count[i - 1] + 1
+        if i % 2 == 0:
+            count[i] = min(count[i], count[i // 2] + 1)
+
+        if i % 3 == 0:
+            count[i] = min(count[i], count[i // 3] + 1)
+
+    print(count[n])
 
 
 def question_1904():
@@ -63,8 +79,35 @@ def question_1932():
     print(max(count[total][j] for j in range(1, total + 1)))
 
 
+def question_2156():
+    total = int(input())
+    arr = [int(input()) for _ in range(total)]
+    arr.append(0)
+    count = [[0] * 2 for _ in range(total + 2)]
+    count[1][0] = count[1][1] = arr[0]
+    count[2][0] = arr[0] + arr[1]
+    count[2][1] = arr[1]
+    for i in range(3, total + 1):
+        count[i][0] = count[i - 1][1] + arr[i - 1]
+        count[i][1] = max(count[i - 2][0], count[i - 2][1], count[i - 3][0], count[i - 3][1]) + arr[i - 1]
+
+    print(max(count[total][0], count[total][1], count[total - 1][0]))
+
+
+def question_2579():
+    total = int(input())
+    arr = [int(input()) for _ in range(total)]
+    count = [[0] * 2 for _ in range(total + 1)]
+    count[1][0] = count[1][1] = arr[0]
+    for i in range(2, total + 1):
+        count[i][0] = count[i - 1][1] + arr[i - 1]
+        count[i][1] = max(count[i - 2][0], count[i - 2][1]) + arr[i - 1]
+
+    print(max(count[total][0], count[total][1]))
+
+
 def question_9184():
-    arr = [[[0 for h in range(21)] for x in range(21)] for y in range(21)]
+    arr = [[[0 for _ in range(21)] for _ in range(21)] for _ in range(21)]
     arr[0][0][0] = 1
     arr[0][0][1] = 1
     arr[0][1][0] = 1
@@ -114,9 +157,40 @@ def question_9461():
         print(arr[int(input())])
 
 
+def question_10844():
+    arr = [[0] * 11 for _ in range(101)]
+    for i in range(0, 10):
+        arr[1][i] = 1
+
+    for i in range(2, 101):
+        for j in range(0, 10):
+            arr[i][j] = (arr[i - 1][j + 1] + arr[i - 1][j - 1]) % 1000000000
+
+    result = 0
+    n = int(input())
+    for i in range(1, 10):
+        result += arr[n][i]
+
+    print(result % 1000000000)
+
+
+def question_11053():
+    total = int(input())
+    arr = list(map(int, input().split()))
+    count = [0]
+    for i in range(total):
+        x = bisect_left(count, arr[i])
+        if count[-1] < arr[i]:
+            count.append(arr[i])
+        else:
+            count[x] = arr[i]
+
+    print(len(count) - 1)
+
+
 def question_24416():
     x = int(input())
-    arr = [1 for i in range(3)]
+    arr = [1 for _ in range(3)]
     for i in range(3, x + 1):
         arr.append(arr[i - 1] + arr[i - 2])
 

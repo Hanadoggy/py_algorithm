@@ -2,8 +2,9 @@
 
 # 종이가 차지 하는 부분을 좌표로 잡고 큰 점이라 생각 해서 넓이 구하기
 
+
 def question_2563():
-    result = [[0 for col in range(110)] for row in range(110)]
+    result = [[0 for _ in range(110)] for _ in range(110)]
     total = int(input())
     for n in range(0, total):
         x, y = input().split()
@@ -21,7 +22,7 @@ def question_2563():
 
 
 def question_2566():
-    result = [[0 for col in range(9)] for row in range(9)]
+    result = [[0 for _ in range(9)] for _ in range(9)]
     mylist = [-1, 0, 0]
     for i in range(0, 9):
         temp = list(map(int, input().split()))
@@ -68,7 +69,7 @@ def question_5597():
 
 
 def question_10807():
-    total = input()
+    temp = input()
     result = list(map(int, input().split()))
     x = int(input())
     print(result.count(x))
