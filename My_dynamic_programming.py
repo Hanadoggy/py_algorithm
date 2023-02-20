@@ -94,6 +94,25 @@ def question_2156():
     print(max(count[total][0], count[total][1], count[total - 1][0]))
 
 
+def question_2565():
+    total = int(input())
+    arr = dict()
+    for i in range(total):
+        x, y = list(map(int, input().split()))
+        arr[x] = y
+
+    lc = list(arr.keys())
+    lc.sort()
+    count = [1] * total
+    for i in range(total):
+        for j in range(0, i + 1):
+            if arr[lc[i]] > arr[lc[j]] and count[i] <= count[j]:
+                count[i] = count[j] + 1
+
+    print(count)
+    print(total - max(count))
+
+
 def question_2579():
     total = int(input())
     arr = [int(input()) for _ in range(total)]
@@ -141,6 +160,31 @@ def recur_9184(a, b, c, arr):
     return arr[a][b][c]
 
 
+# 미해결
+
+def question_9251():
+    cap = list(input())
+    com = list(input())
+    count = [0] * 2
+    arr = [-1]
+    if len(com) > len(cap):
+        for i in range(len(cap)):
+            for j in range(len(com)):
+                if cap[i] == com[j] and j > arr[-1] and count[-1] >= count[-2]:
+                    arr.append(j)
+                    count.append(count[-1] + 1)
+
+    else:
+        for i in range(len(com)):
+            for j in range(len(cap)):
+                if com[i] == cap[j] and j > arr[-1] and count[-1] >= count[-2]:
+                    arr.append(j)
+                    count.append(count[-1] + 1)
+
+    print(cap, com, count, arr)
+    print(max(count))
+
+
 def question_9461():
     case = int(input())
     arr = list()
@@ -186,6 +230,58 @@ def question_11053():
             count[x] = arr[i]
 
     print(len(count) - 1)
+
+
+def question_11054():
+    total = int(input())
+    arr = list(map(int, input().split()))
+    count = [0]
+    reverse = [0]
+    idx = [[0] * 2]
+    comp = 0
+    for i in range(total):
+        j = bisect_left(count, arr[i])
+        if count[-1] < arr[i]:
+            count.append(arr[i])
+            idx.append([i, len(count) - 1])
+        else:
+            count[j] = arr[i]
+
+    for x in range(len(idx)):
+        for i in range(total - 1, idx[x][0] - 1, -1):
+            j = bisect_left(reverse, arr[i])
+            if reverse[-1] < arr[i]:
+                reverse.append(arr[i])
+            else:
+                reverse[j] = arr[i]
+
+        comp = max(comp, idx[x][1] + len(reverse) - 2)
+        reverse = [0]
+
+    count = [0]
+    reverse = [0]
+    comp2 = 0
+    idx = [[0] * 2]
+    for i in range(total - 1, -1, -1):
+        j = bisect_left(count, arr[i])
+        if count[-1] < arr[i]:
+            count.append(arr[i])
+            idx.append([i, len(count) - 1])
+        else:
+            count[j] = arr[i]
+
+    for x in range(len(idx)):
+        for i in range(0, idx[x][0] + 1):
+            j = bisect_left(reverse, arr[i])
+            if reverse[-1] < arr[i]:
+                reverse.append(arr[i])
+            else:
+                reverse[j] = arr[i]
+
+        comp2 = max(comp2, idx[x][1] + len(reverse) - 2)
+        reverse = [0]
+
+    print(max(comp, comp2))
 
 
 def question_24416():
