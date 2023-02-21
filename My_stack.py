@@ -3,6 +3,44 @@
 import sys
 
 
+def question_2504():
+    arr = input()
+    stack = list()
+    append = list()
+    count = 0
+    temp = 1
+    for i in range(len(arr)):
+        if arr[i] == '[':
+            stack.append(arr[i])
+            temp *= 3
+        elif arr[i] == '(':
+            stack.append(arr[i])
+            temp *= 2
+        elif arr[i] == ']':
+            if len(stack) == 0 or stack[-1] == '(':
+                count = 0
+                break
+
+            if arr[i - 1] == '[':
+                count += temp
+            stack.pop()
+            temp //= 3
+        else:
+            if len(stack) == 0 or stack[-1] == '[':
+                count = 0
+                break
+
+            if arr[i - 1] == '(':
+                count += temp
+            stack.pop()
+            temp //= 2
+
+    if len(stack) > 0:
+        print(0)
+    else:
+        print(count)
+
+
 def question_4949():
     stack = list()
     while True:

@@ -12,4 +12,4 @@ from My_backtracking import *
 
 
 if __name__ == '__main__':
-    question_9663()
+    question_2504()
