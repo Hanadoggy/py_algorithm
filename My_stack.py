@@ -6,7 +6,6 @@ import sys
 def question_2504():
     arr = input()
     stack = list()
-    append = list()
     count = 0
     temp = 1
     for i in range(len(arr)):

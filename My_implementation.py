@@ -73,3 +73,32 @@ def question_10807():
     result = list(map(int, input().split()))
     x = int(input())
     print(result.count(x))
+
+
+def question_15683():
+    row, col = list(map(int, input().split()))
+    room = list()
+    for i in range(row):
+        room.append(list(map(int, input().split())))
+    count = 0
+    angle = [[[1], [2], [3], [4]],
+                [[1, 3], [2, 4]],
+                [[1, 2], [2, 3], [3, 4], [4, 1]],
+                [[1, 2, 3], [2, 3, 4], [3, 4, 1], [4, 1, 2]],
+                [[1, 2, 3, 4]]]
+    check = [[0 for _ in range(col)] for _ in range(row)]
+    see = list()
+    for i in range(row):
+        for j in range(col):
+            if room[i][j] == 0:
+                continue
+            elif room[i][j] == 1:
+                calc_15683(room, angle, check, see, i, j, 1)
+
+
+def calc_15683(room, angle, check, see, n, m, case):
+    for i in range(len(angle[n])):
+        for j in range(len(angle[n][i])):
+            if angle[n][i][j] == 1:
+                return
+                # for x in range()
