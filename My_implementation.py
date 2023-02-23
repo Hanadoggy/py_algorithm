@@ -75,30 +75,127 @@ def question_10807():
     print(result.count(x))
 
 
+# 너무 난잡한데 코드를 깔끔하게 할 방법은?? 모르겠다 배열이 너무 많음
 def question_15683():
     row, col = list(map(int, input().split()))
     room = list()
+    cctv = list()
+    index = list()
+    count = 0
+    angle = [[[0], [1], [2], [3]],
+             [[0, 2], [1, 3]],
+             [[0, 1], [1, 2], [2, 3], [3, 0]],
+             [[0, 1, 2], [1, 2, 3], [2, 3, 0], [3, 0, 1]],
+             [[0, 1, 2, 3]]]
+    # cctv, cctv 가 현재 보는 방향, cctv 방향의 경우의 수 3-6-9-12시 방향
     for i in range(row):
         room.append(list(map(int, input().split())))
+    for r in range(row):
+        for c in range(col):
+            if room[r][c] == 0:
+                count += 1
+            elif room[r][c] < 6:
+                cctv.append([r, c, room[r][c] - 1])
+                index.append(0)
+    minus = 0
+    if len(index) > 0:
+        while index[0] != 4:
+            check = [item[:] for item in room]
+            temp = 0
+            for i in range(len(cctv)):
+                temp += calc_15683(row, col, cctv, index, angle, check, i)
+            minus = max(minus, temp)
+            index[-1] += 1
+            for i in range(len(index) - 1, 0, -1):
+                if index[i] == 4:
+                    index[i] = 0
+                    index[i - 1] += 1
+    print(count - minus)
+
+
+def calc_15683(row, col, cctv, index, angle, check, n):
     count = 0
-    angle = [[[1], [2], [3], [4]],
-                [[1, 3], [2, 4]],
-                [[1, 2], [2, 3], [3, 4], [4, 1]],
-                [[1, 2, 3], [2, 3, 4], [3, 4, 1], [4, 1, 2]],
-                [[1, 2, 3, 4]]]
-    check = [[0 for _ in range(col)] for _ in range(row)]
-    see = list()
+    for i in range(len(angle[cctv[n][2]][(index[n] % len(angle[cctv[n][2]]))])):
+        if angle[cctv[n][2]][(index[n] % len(angle[cctv[n][2]]))][i] == 0:
+            for x in range(cctv[n][1] + 1, col):
+                if check[cctv[n][0]][x] == 0:
+                    check[cctv[n][0]][x] = 7
+                    count += 1
+                elif check[cctv[n][0]][x] == 6:
+                    break
+        elif angle[cctv[n][2]][(index[n] % len(angle[cctv[n][2]]))][i] == 1:
+            for y in range(cctv[n][0] + 1, row):
+                if check[y][cctv[n][1]] == 0:
+                    check[y][cctv[n][1]] = 7
+                    count += 1
+                elif check[y][cctv[n][1]] == 6:
+                    break
+        elif angle[cctv[n][2]][(index[n] % len(angle[cctv[n][2]]))][i] == 2:
+            for x in range(cctv[n][1] - 1, -1, -1):
+                if check[cctv[n][0]][x] == 0:
+                    check[cctv[n][0]][x] = 7
+                    count += 1
+                elif check[cctv[n][0]][x] == 6:
+                    break
+        else:
+            for y in range(cctv[n][0] - 1, -1, -1):
+                if check[y][cctv[n][1]] == 0:
+                    check[y][cctv[n][1]] = 7
+                    count += 1
+                elif check[y][cctv[n][1]] == 6:
+                    break
+    return count
+
+
+arr = list()
+stickers = list()
+
+
+def question_18808():
+    global stickers, arr
+    row, col, total = list(map(int, input().split()))
+    arr = [[0] * col] * row
+    for _ in range(total):
+        r, c = list(map(int, input().split()))
+        temp = list()
+        for _ in range(r):
+            temp.append(list(map(int, input().split())))
+        stickers.append(temp)
+    for i in range(total):
+        for case in range(4):
+            if turn_18808(row, col, i, case) == 1:
+                break
+    count = 0
     for i in range(row):
         for j in range(col):
-            if room[i][j] == 0:
-                continue
-            elif room[i][j] == 1:
-                calc_15683(room, angle, check, see, i, j, 1)
+            if arr[i][j] == 0:
+                count += 1
+    print(row * col - count)
 
 
-def calc_15683(room, angle, check, see, n, m, case):
-    for i in range(len(angle[n])):
-        for j in range(len(angle[n][i])):
-            if angle[n][i][j] == 1:
-                return
-                # for x in range()
+def turn_18808(row, col, i, case):
+    global stickers, arr
+    if case != 0:
+        sticker = [[0 for _ in range(len(stickers[i]))] for _ in range(len(stickers[i][0]))]
+        for y in range(len(stickers[i][0])):
+            for x in range(len(stickers[i])):
+                sticker[y][len(stickers[i]) - x - 1] = stickers[i][x][y]
+        stickers[i] = [item[:] for item in sticker]
+    for y in range(row):
+        for x in range(col):
+            if x + len(stickers[i][0]) <= col and y + len(stickers[i]) <= row and paste_18808(y, x, i) == 1:
+                return 1
+    return 0
+
+
+def paste_18808(row, col, n):
+    global stickers, arr
+    temp = [item[:] for item in arr]
+    for i in range(len(stickers[n])):
+        for j in range(len(stickers[n][i])):
+            if arr[row + i][col + j] != 0 and stickers[n][i][j] == 1:
+                return 0
+            elif arr[row + i][col + j] == 0 and stickers[n][i][j] == 1:
+                temp[row + i][col + j] = 1
+    arr = [item[:] for item in temp]
+    return 1
