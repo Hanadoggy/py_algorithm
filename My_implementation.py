@@ -75,6 +75,26 @@ def question_10807():
     print(result.count(x))
 
 
+# def question_12100():
+#     n = int(input())
+#     field = list()
+#     case = [0, 0, 0, 0, 0]
+#     for _ in range(n):
+#         field.append(list(map(int, input().split())))
+#
+#     arr = [item[:] for item in field]
+#     while case[0] != 4:
+#         for move in range(n):
+#             calc_12100(n, arr, case)
+#
+#
+# def calc_12100(n, field, case):
+#     if case == 0:
+#         for i in range(n):
+#             for j in range(n):
+
+
+
 # 너무 난잡한데 코드를 깔끔하게 할 방법은?? 모르겠다 배열이 너무 많음
 def question_15683():
     row, col = list(map(int, input().split()))
